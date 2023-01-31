@@ -6,7 +6,7 @@ services:
     image: postgres:13.5
     restart: always
     env_file:
-      - /.env
+      - .env
     ports:
       - '5432:5432'
 
@@ -15,6 +15,6 @@ services:
     depends_on:
       - postgres
     env_file:
-      - /.env
+      - .env
     ports:
       - '15432:80'
