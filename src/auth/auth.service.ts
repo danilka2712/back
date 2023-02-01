@@ -7,6 +7,7 @@ import { UpdateAuthDto } from './dto/update-auth.dto';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { Response } from 'express';
+import { Http2ServerRequest } from 'http2';
 
 @Injectable()
 export class AuthService {
@@ -75,6 +76,7 @@ export class AuthService {
     res.cookie('access_token', accessToken, {
       maxAge: 1000 * 60 * 15,
       httpOnly: true,
+      secure: false
     });
   }
 }
