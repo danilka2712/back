@@ -8,7 +8,7 @@ CREATE TABLE "User" (
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
-    "phone" TEXT NOT NULL,
+    "phone" TEXT,
     "role" "Role" NOT NULL DEFAULT 'User',
     "username" TEXT,
 

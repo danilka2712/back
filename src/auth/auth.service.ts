@@ -1,11 +1,8 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
-import { User, Prisma } from '@prisma/client';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import * as bcrypt from 'bcrypt';
-import { CreateUserDto } from 'src/users/dto/create-user.dto';
-import { create } from 'domain';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
@@ -22,15 +19,14 @@ export class AuthService {
     try {
       const saltOrRounds = 10;
       const password = await bcrypt.hash(createAuthDto.password, saltOrRounds);
-
-      const createdUser = await this.prisma.user.create({
+      const user = await this.prisma.user.create({
         data: {
-          ...createAuthDto,
+          email: createAuthDto.email,
           password,
         },
       });
-      createdUser.password = undefined;
-      return createdUser;
+      delete user.password;
+      return this.signToken(user.id, user.email);
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
