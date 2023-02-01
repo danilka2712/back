@@ -13,8 +13,8 @@ import { JwtGuard } from 'src/auth/guard/jwt.guard';
 import { User } from '@prisma/client';
 @WebSocketGateway({
   cors: {
-    origin: true,
     credentials: true,
+    origin: 'http://192.168.0.104:5173',
   },
 })
 export class OrdersGateway {
