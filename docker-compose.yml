@@ -15,16 +15,6 @@ services:
     networks:
       - common
 
-  nginx:
-    image: nginx:1.19.4
-    depends_on:
-      - nest-api7
-    volumes:
-      - /nginx.conf
-    ports:
-      - '8080:80'
-    networks:
-      - common 
   postgres:
     image: postgres:13
     container_name: postgresprisma
