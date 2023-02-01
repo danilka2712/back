@@ -1,10 +1,10 @@
 version: '3.8'
 services:
-  nest-api4:
+  nest-api7:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: nest-api4
+    container_name: nest-api7
     restart: always
     ports:
       - 3000:3000
@@ -12,7 +12,19 @@ services:
       - postgres
     env_file:
       - .env
+    networks:
+      - common
 
+  nginx:
+    image: nginx:1.19.4
+    depends_on:
+      - nest-api7
+    volumes:
+      - /nginx.conf
+    ports:
+      - '8080:80'
+    networks:
+      - common 
   postgres:
     image: postgres:13
     container_name: postgresprisma
@@ -23,7 +35,11 @@ services:
       - .env
     volumes:
       - postgres:/var/lib/postgresql/data
-
+    networks:
+      - common
 volumes:
   postgres:
     name: nest-prisma-docker-db
+networks:
+  common:
+    driver: bridge
