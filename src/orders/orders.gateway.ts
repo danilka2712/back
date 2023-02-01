@@ -14,7 +14,7 @@ import { User } from '@prisma/client';
 @WebSocketGateway({
   cors: {
     credentials: true,
-    origin: 'http://domain:5173',
+    origin: 'http://83.222.11.217:5173',
   },
 })
 export class OrdersGateway {
