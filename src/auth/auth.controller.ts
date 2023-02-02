@@ -28,7 +28,7 @@ export class AuthController {
   ) {
     const authToken = await this.authService.login(updateAuthDto);
     this.authService.storeTokenInCookie(res, authToken);
-    res.status(200).send({ message: 'ok' });
+    res.status(200).send({ message: authToken + '231' });
     return;
   }
 }
