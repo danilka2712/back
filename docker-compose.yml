@@ -1,10 +1,10 @@
 version: '3.8'
 services:
-  nest-api7:
+  nest-api2:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: nest-api7
+    container_name: nest-api2
     restart: always
     ports:
       - 3000:3000
