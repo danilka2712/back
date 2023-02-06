@@ -5,4 +5,8 @@ export class CreateOrderDto {
   price: string;
   startPoint: string;
   finishPoint: string;
+  serviceName: string;
+  servicePrice: string;
+  brand: string;
+  models: string;
 }

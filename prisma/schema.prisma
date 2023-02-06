@@ -23,15 +23,19 @@ model User {
 }
 
 model Orders {
-  id          Int    @id @default(autoincrement())
-  name        String
-  phone       String
-  content     String
-  price       String
-  startPoint  String
-  finishPoint String
-  author      User?  @relation(fields: [authorId], references: [id])
-  authorId    Int?
+  id           Int    @id @default(autoincrement())
+  name         String
+  phone        String
+  content      String
+  price        String
+  startPoint   String
+  finishPoint  String
+  serviceName  String
+  servicePrice String
+  brand    String
+  models   String
+  author   User?  @relation(fields: [authorId], references: [id])
+  authorId Int?
 }
 
 enum Role {
