@@ -21,7 +21,10 @@ export class OrdersService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} order`;
+    const order = this.prisma.orders.findUnique({
+      where: { id },
+    });
+    return order;
   }
 
   async update(dto: UpdateOrderDto) {
