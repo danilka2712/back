@@ -17,6 +17,7 @@ model User {
   email     String   @unique
   password  String
   phone     String?
+  service   String[]
   role      Role     @default(User)
   username  String?
   orders    Orders[]
@@ -32,10 +33,10 @@ model Orders {
   finishPoint  String
   serviceName  String
   servicePrice String
-  brand    String
-  models   String
-  author   User?  @relation(fields: [authorId], references: [id])
-  authorId Int?
+  brand        String
+  models       String
+  author       User?  @relation(fields: [authorId], references: [id])
+  authorId     Int?
 }
 
 enum Role {

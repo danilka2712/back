@@ -7,7 +7,6 @@ import { UpdateAuthDto } from './dto/update-auth.dto';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { Response } from 'express';
-import { Http2ServerRequest } from 'http2';
 
 @Injectable()
 export class AuthService {

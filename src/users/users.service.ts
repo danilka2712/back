@@ -17,6 +17,19 @@ export class UsersService {
     return users;
   }
 
+  async updateUser(user: User) {
+    const users = await this.prisma.user.update({
+      data: {
+        username: 'Данилочка',
+      },
+      where: {
+        id: user.id,
+      },
+    });
+    delete users.password;
+    return users;
+  }
+
   async findAll(user: User) {
     const userFind = await this.prisma.user.findUnique({
       where: {
