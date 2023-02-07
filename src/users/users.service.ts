@@ -21,7 +21,7 @@ export class UsersService {
     const users = await this.prisma.user.update({
       data: {
         username: 'Данилочка',
-        service: ['asdas', 'asdasda']
+        service: ['asdas', 'asdasda'],
       },
       where: {
         id: user.id,
