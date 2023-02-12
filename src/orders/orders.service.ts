@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { WebSocketServer } from '@nestjs/websockets';
 import { User } from '@prisma/client';
 import { PrismaService } from 'src/prisma.service';
 import { CreateOrderDto } from './dto/create-order.dto';
@@ -17,12 +18,23 @@ export class OrdersService {
   }
 
   async findAll(user: User) {
-    return 'asdas';
+    const orderAll = await this.prisma.orders.findMany({});
+    return orderAll;
   }
 
   findOne(id: number) {
     const order = this.prisma.orders.findUnique({
-      where: { id },
+      where: {
+        id,
+      },
+      include: {
+        author: {
+          select: {
+            phone: true,
+            username: true,
+          },
+        },
+      },
     });
     return order;
   }
@@ -34,6 +46,7 @@ export class OrdersService {
       },
       data: {
         authorId: dto.authorId,
+        content: dto.content,
       },
       include: {
         author: true,

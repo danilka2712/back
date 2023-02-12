@@ -18,27 +18,34 @@ import { User } from '@prisma/client';
   },
 })
 export class OrdersGateway {
-  constructor(private readonly ordersService: OrdersService) {}
   @WebSocketServer()
   server: Server;
+  constructor(private readonly ordersService: OrdersService) {}
+
   @SubscribeMessage('createOrder')
-  create(@MessageBody() createOrderDto: CreateOrderDto) {
-    return this.ordersService.create(createOrderDto);
+  async create(@MessageBody() createOrderDto: CreateOrderDto) {
+    const message = await this.ordersService.create(createOrderDto);
+    await this.server.emit('message', message);
+    return message;
   }
 
   @SubscribeMessage('findAllOrders')
-  findAll(@Request() req) {
-    return this.ordersService.findAll(req.user);
+  async findAll(@Request() req) {
+    const orderAll = await this.ordersService.findAll(req.user);
+    await this.server.emit('orderAll', orderAll);
+    return orderAll;
   }
 
   @SubscribeMessage('findOneOrder')
-  findOne(@MessageBody() id: number) {
-    return this.ordersService.findOne(id);
+  findOne(@MessageBody() updateOrderDto: UpdateOrderDto) {
+    return this.ordersService.findOne(updateOrderDto.id);
   }
 
   @SubscribeMessage('updateOrder')
-  update(@MessageBody() updateOrderDto: UpdateOrderDto) {
-    return this.ordersService.update(updateOrderDto);
+  async update(@MessageBody() updateOrderDto: UpdateOrderDto) {
+    const update = await this.ordersService.update(updateOrderDto);
+    await this.server.emit('update', update);
+    return update;
   }
 
   @SubscribeMessage('removeOrder')

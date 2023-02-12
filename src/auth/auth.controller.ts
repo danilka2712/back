@@ -32,6 +32,7 @@ export class AuthController {
     @Body() updateAuthDto: UpdateAuthDto,
     @Res({ passthrough: true }) res: Response,
   ) {
+    console.log(updateAuthDto);
     const authToken = await this.authService.login(updateAuthDto);
     this.authService.storeTokenInCookie(res, authToken);
     res.status(200).send({ message: authToken });
