@@ -25,9 +25,12 @@ export class AuthService {
           password,
         },
       });
+      console.log('Ошибка непоймана', user);
+
       delete user.password;
       return this.signToken(user.id, user.email);
     } catch (error) {
+      console.log('Ошибка поймана', error);
       if (error instanceof PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
           throw new ForbiddenException('Credentials taken');
