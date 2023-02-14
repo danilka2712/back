@@ -25,7 +25,7 @@ export class AuthService {
         },
       });
       if (userValidate) {
-        throw new ForbiddenException('Credentials taken');
+        throw new ForbiddenException('Пользователь уже существует');
       }
       if (!userValidate) {
         const user = await this.prisma.user.create({
