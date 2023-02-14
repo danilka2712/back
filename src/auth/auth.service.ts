@@ -19,18 +19,24 @@ export class AuthService {
     const saltOrRounds = 10;
     const password = await bcrypt.hash(createAuthDto.password, saltOrRounds);
     try {
+      const userValidate = await this.prisma.user.findUnique({
+        where: {
+          email: createAuthDto.email,
+        },
+      });
+      if(userValidate) {
+        throw new ForbiddenException('Credentials taken');
+      }
       const user = await this.prisma.user.create({
         data: {
           email: createAuthDto.email,
           password,
         },
       });
-      console.log('Ошибка непоймана', user);
 
       delete user.password;
       return this.signToken(user.id, user.email);
     } catch (error) {
-      console.log('Ошибка поймана', error);
       if (error instanceof PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
           throw new ForbiddenException('Credentials taken');
