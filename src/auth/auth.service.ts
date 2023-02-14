@@ -24,18 +24,20 @@ export class AuthService {
           email: createAuthDto.email,
         },
       });
-      if(userValidate) {
+      if (userValidate) {
         throw new ForbiddenException('Credentials taken');
       }
-      const user = await this.prisma.user.create({
-        data: {
-          email: createAuthDto.email,
-          password,
-        },
-      });
+      if (!userValidate) {
+        const user = await this.prisma.user.create({
+          data: {
+            email: createAuthDto.email,
+            password,
+          },
+        });
 
-      delete user.password;
-      return this.signToken(user.id, user.email);
+        delete user.password;
+        return this.signToken(user.id, user.email);
+      }
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
