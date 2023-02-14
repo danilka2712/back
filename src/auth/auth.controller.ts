@@ -18,14 +18,8 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('register')
-  async register(
-    @Body() createAuthDto: CreateAuthDto,
-    @Res({ passthrough: true }) res: Response,
-  ) {
-    const authToken = await this.authService.register(createAuthDto);
-    this.authService.storeTokenInCookie(res, authToken);
-    res.status(200).send({ message: authToken });
-    return;
+  async register(@Body() createAuthDto: CreateAuthDto) {
+    return this.authService.register(createAuthDto);
   }
   @Post('login')
   async login(

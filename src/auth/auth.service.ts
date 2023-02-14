@@ -16,9 +16,9 @@ export class AuthService {
     private jwt: JwtService,
   ) {}
   async register(createAuthDto: CreateAuthDto) {
+    const saltOrRounds = 10;
+    const password = await bcrypt.hash(createAuthDto.password, saltOrRounds);
     try {
-      const saltOrRounds = 10;
-      const password = await bcrypt.hash(createAuthDto.password, saltOrRounds);
       const user = await this.prisma.user.create({
         data: {
           email: createAuthDto.email,
